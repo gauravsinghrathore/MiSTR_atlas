@@ -1,0 +1,115 @@
+---
+title: "day0 ES"
+output: html_document
+---
+
+
+```{r}
+library(Seurat)
+library(tidyverse)
+library(parallel)
+library(dplyr)
+library(Matrix)
+library(ggplot2)
+library(cowplot)
+library(sctransform)
+#library(future)
+#plan("multiprocess", workers = 10)
+#options(future.globals.maxSize= 891289600)
+
+```
+
+
+
+```{r}
+
+s.genes <- readLines("~/new_analysis_new_cc/cc/s.txt")
+g2m.genes <- readLines("~/new_analysis_new_cc/cc/g2m.txt")
+
+######Function for subsetting########
+
+
+object.subsetting <- function (seurat_obj){
+  seurat_obj.subset <-SubsetRow(seurat_obj, code= "^RP[SL][[:digit:]]"  , invert = TRUE)
+  seurat_obj.subset <-SubsetRow(data = seurat_obj.subset, code= "^RPLP"  , invert = TRUE)
+  seurat_obj.subset <- SubsetRow(data = seurat_obj.subset, code = "^MT-" , invert = TRUE)
+    seurat_obj.subset <- SubsetRow(data = seurat_obj.subset, code = "^MTRNR" , invert = TRUE)
+  
+  seurat_obj <- seurat_obj.subset
+}
+
+Filter_Mito_Ribo <- function(Seurat_obj){
+  "N.B. after running this fun $nCount_RNA and $nFeature_RNA will be wrong"
+  mito.ribo.genes <- c(grep(pattern = "^MT-", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T), 
+                     grep(pattern = "^RPL", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T),
+                     grep(pattern = "^RPS", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T),
+                     grep(pattern = "^MTRNR", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T))
+                  
+                    
+  genes.to.use <- rownames(Seurat_obj@assays$RNA@meta.features)[!(rownames(Seurat_obj@assays$RNA@meta.features) %in% mito.ribo.genes)]
+  Seurat_obj@assays$RNA@counts <- Seurat_obj@assays$RNA@counts[genes.to.use,]
+  Seurat_obj@assays$RNA@data <- Seurat_obj@assays$RNA@data[genes.to.use,]
+  Seurat_obj@assays$RNA@meta.features <- Seurat_obj@assays$RNA@meta.features[genes.to.use,]
+  return(Seurat_obj)
+}
+
+
+Seurat.NormAndScale <- function(seurat_obj) {
+  
+  #seurat_obj <- SCTransform(seurat_obj, vars.to.regress = "nCount_RNA", verbose = FALSE)
+  
+  
+  seurat_obj<-NormalizeData(seurat_obj, normalization.method = "LogNormalize", scale.factor = 1e4)
+
+  seurat_obj<-FindVariableFeatures(seurat_obj, selection.method = "vst", nfeatures = 2000, do.plot=F)
+  
+      seurat_obj<-ScaleData(seurat_obj)
+}
+
+###########cell cycle############
+seurat.cellcycle <- function(seurat_obj){
+seurat_obj <- CellCycleScoring( seurat_obj, s.features  = s.genes, g2m.features = g2m.genes, set.ident = FALSE)
+seurat_obj <- SCTransform(seurat_obj, vars.to.regress = c("nCount_RNA","S.Score", "G2M.Score"), verbose = FALSE)
+#seurat_obj <- ScaleData(seurat_obj, vars.to.regress = c("S.Score", "G2M.Score"), features = rownames(seurat_obj))
+seurat_obj<- FindVariableFeatures(object = seurat_obj, do.plot = FALSE)
+return(seurat_obj)
+}
+```
+
+
+Read filtered 10X matrices 
+```{r}
+d0es.data <- Read10X("/nfsdata/data/data-runs/mistr_cellranger5.0/170907-kirkeby-mistr/d0es-5000_cells/outs/filtered_feature_bc_matrix/",strip.suffix = T)
+
+```
+
+
+
+Normalisation and scaling
+
+
+```{r}
+#########create seurat object of UMI data#####
+d0es <- CreateSeuratObject(d0es.data,project = "d0es")
+d0es <- Seurat.NormAndScale(d0es)
+```
+
+
+
+```{r}
+d0es[["percent.mt"]] <- PercentageFeatureSet(d0es, pattern = "^MT-")
+d0es <- subset(d0es, subset = nFeature_RNA > 200 & nFeature_RNA < 6000 & percent.mt < 15)
+d0es <- Filter_Mito_Ribo(d0es)
+
+#######normalise#####
+d0es <- Seurat.NormAndScale(d0es)
+
+########cell cycle and umi regression######
+
+d0es <- seurat.cellcycle(d0es)
+```
+
+```{r}
+saveRDS(d0es, file = "~/new_analysis_new_cc/rds/d0es.rds")
+```
+

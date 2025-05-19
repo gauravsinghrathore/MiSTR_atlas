@@ -1,0 +1,156 @@
+---
+title: "d62v dmux"
+output: html_document
+---
+
+
+```{r}
+library(Seurat)
+library(tidyverse)
+library(parallel)
+library(dplyr)
+library(Matrix)
+library(ggplot2)
+library(cowplot)
+library(sctransform)
+library(SeuratWrappers)
+#library(future)
+#plan("multiprocess", workers = 10)
+#options(future.globals.maxSize= 891289600)
+
+```
+
+
+```{r}
+
+s.genes <- readLines("~/new_analysis_new_cc/cc/s.txt")
+g2m.genes <- readLines("~/new_analysis_new_cc/cc/g2m.txt")
+
+######Function for subsetting########
+
+
+object.subsetting <- function (seurat_obj){
+  seurat_obj.subset <-SubsetRow(seurat_obj, code= "^RP[SL][[:digit:]]"  , invert = TRUE)
+  seurat_obj.subset <-SubsetRow(data = seurat_obj.subset, code= "^RPLP"  , invert = TRUE)
+  seurat_obj.subset <- SubsetRow(data = seurat_obj.subset, code = "^MT-" , invert = TRUE)
+    seurat_obj.subset <- SubsetRow(data = seurat_obj.subset, code = "^MTRNR" , invert = TRUE)
+  
+  seurat_obj <- seurat_obj.subset
+}
+
+Filter_Mito_Ribo <- function(Seurat_obj){
+  "N.B. after running this fun $nCount_RNA and $nFeature_RNA will be wrong"
+  mito.ribo.genes <- c(grep(pattern = "^MT-", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T), 
+                     grep(pattern = "^RPL", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T),
+                     grep(pattern = "^RPS", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T),
+                     grep(pattern = "^MTRNR", x = rownames(x = Seurat_obj@assays$RNA@meta.features), value = T, ignore.case = T))
+                  
+                    
+  genes.to.use <- rownames(Seurat_obj@assays$RNA@meta.features)[!(rownames(Seurat_obj@assays$RNA@meta.features) %in% mito.ribo.genes)]
+  Seurat_obj@assays$RNA@counts <- Seurat_obj@assays$RNA@counts[genes.to.use,]
+  Seurat_obj@assays$RNA@data <- Seurat_obj@assays$RNA@data[genes.to.use,]
+  Seurat_obj@assays$RNA@meta.features <- Seurat_obj@assays$RNA@meta.features[genes.to.use,]
+  return(Seurat_obj)
+}
+
+
+Seurat.NormAndScale <- function(seurat_obj) {
+  
+  #seurat_obj <- SCTransform(seurat_obj, vars.to.regress = "nCount_RNA", verbose = FALSE)
+  
+  
+  seurat_obj<-NormalizeData(seurat_obj, normalization.method = "LogNormalize", scale.factor = 1e4)
+
+  seurat_obj<-FindVariableFeatures(seurat_obj, selection.method = "vst", nfeatures = 2000, do.plot=F)
+  
+      seurat_obj<-ScaleData(seurat_obj)
+}
+
+###########cell cycle############
+seurat.cellcycle <- function(seurat_obj){
+seurat_obj <- CellCycleScoring( seurat_obj, s.features  = s.genes, g2m.features = g2m.genes, set.ident = FALSE)
+seurat_obj <- SCTransform(seurat_obj, vars.to.regress = c("nCount_RNA","S.Score", "G2M.Score"), verbose = FALSE)
+#seurat_obj <- ScaleData(seurat_obj, vars.to.regress = c("S.Score", "G2M.Score"), features = rownames(seurat_obj))
+seurat_obj<- FindVariableFeatures(object = seurat_obj, do.plot = FALSE)
+return(seurat_obj)
+}
+```
+
+
+
+
+Read filtered 10X matrices and HTOs from citeseq-count
+```{r}
+d62v.data <- Read10X("/nfsdata/projects/gaurav/c5-exo/data-runs/170907-kirkeby-mistr/d62V-5000_cells/outs/filtered_feature_bc_matrix/",strip.suffix = T)
+d62v.hto.outs <- Read10X("/nfsdata/data/data-citeseq/outs/d62V/umi_count/",gene.column=1)
+d62v.hto.outs <- d62v.hto.outs[-6,]
+
+```
+
+
+
+```{r}
+###########filtering matrices for same barcode###############
+
+joint.bcs <- intersect(colnames(d62v.data), colnames(d62v.hto.outs))
+
+d62v.data <- d62v.data[, joint.bcs]
+d62v.hto.outs <- as.matrix(d62v.hto.outs[, joint.bcs])
+
+
+```
+
+Normalisation and scaling
+
+
+```{r}
+#########create seurat object of UMI data#####
+d62v <- CreateSeuratObject(d62v.data,project = "d62v")
+d62v <- Seurat.NormAndScale(d62v)
+```
+
+
+Adding HTO as an independent assay
+
+```{r}
+
+d62v[["HTO"]] <- CreateAssayObject(counts = d62v.hto.outs)
+
+d62v <- NormalizeData(d62v, assay = "HTO", normalization.method = "CLR")
+head(rownames(d62v[["HTO"]]))
+```
+
+
+Demultiplexing
+
+```{r}
+d62v <- HTODemux(d62v, assay = "HTO", positive.quantile = 0.99)
+table(d62v$HTO_classification.global)
+```
+isolates fps as a new seurat object
+
+```{r}
+Idents(d62v) <- "HTO_classification.global"
+d62v.fp <- subset(d62v, idents = c("Singlet","Negative"))
+```
+
+
+```{r}
+d62v.fp[["percent.mt"]] <- PercentageFeatureSet(d62v.fp, pattern = "^MT-")
+d62v.fp <- subset(d62v.fp, subset = nFeature_RNA > 200 & nFeature_RNA < 4500 & percent.mt < 15)
+d62v.fp <- Filter_Mito_Ribo(d62v.fp)
+
+
+
+#######normalise#####
+d62v.fp <- Seurat.NormAndScale(d62v.fp)
+
+########cell cycle and umi regression######
+#library(future)
+#plan("multiprocess", workers = 80)
+#options(future.globals.maxSize= 10000 * 1024^2)
+d62v.fp <- seurat.cellcycle(d62v.fp)
+
+saveRDS(d62v.fp, file = "~/new_analysis_new_cc/rds/d62v.rds")
+```
+
