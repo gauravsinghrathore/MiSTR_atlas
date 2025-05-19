@@ -1,0 +1,280 @@
+##########all integration#########
+
+
+```{r}
+library(Seurat)
+library(tidyverse)
+library(parallel)
+library(dplyr)
+library(Matrix)
+library(ggplot2)
+library(cowplot)
+library(sctransform)
+library(SeuratWrappers)
+#library(future)
+#plan("multiprocess", workers = 10)
+#options(future.globals.maxSize= 891289600)
+
+```
+
+
+```{r}
+#########load all time points######
+
+d0es <- readRDS("/scratch/mistr-atlas/new/day0/d0es.rds")
+
+d1d <- readRDS("/scratch/mistr-atlas/new/day1/d1d.rds")
+
+d1v <- readRDS("/scratch/mistr-atlas/new/day1/d1v.rds")
+
+d2d <- readRDS("/scratch/mistr-atlas/new/day2/d2d.rds")
+
+d2v <- readRDS("/scratch/mistr-atlas/new/day2/d2v.rds")
+
+d5d <- readRDS("/scratch/mistr-atlas/new/day5/d5d.rds")
+
+d5v <- readRDS("/scratch/mistr-atlas/new/day5/d5v.rds")
+
+d9d <- readRDS("/scratch/mistr-atlas/new/day9/d9d.rds")
+
+d9v <- readRDS("/scratch/mistr-atlas/new/day9/d9v.rds")
+
+d14d <- readRDS("/scratch/mistr-atlas/new/day14/d14d.rds")
+
+d14v <- readRDS("/scratch/mistr-atlas/new/day14/d14v.rds")
+
+d21d <- readRDS("/scratch/mistr-atlas/new/day21/d21d.rds")
+
+d21v <- readRDS("/scratch/mistr-atlas/new/day21/d21v.rds")
+
+d35d <- readRDS("/scratch/mistr-atlas/new/day35/d35d.rds")
+
+d35v <- readRDS("/scratch/mistr-atlas/new/day35/d35v.rds")
+
+d62d <- readRDS("/scratch/mistr-atlas/new/day62/d62d.rds")
+
+d62v <- readRDS("/scratch/mistr-atlas/new/day62/d62v.rds")
+
+################ load all the dv datasets##########
+
+d5dv <- readRDS("/scratch/mistr-atlas/new/dv_mistr/d5/d5dv.rds")
+d9dv <- readRDS("/scratch/mistr-atlas/new/dv_mistr/d9/d9dv.rds")
+d14dv <- readRDS("/scratch/mistr-atlas/new/dv_mistr/d14/d14dv.rds")
+d21dv <- readRDS("/scratch/mistr-atlas/new/dv_mistr/d21/d21dv.rds")
+d35dv <- readRDS("/scratch/mistr-atlas/new/dv_mistr/d35/d35dv.rds")
+
+
+```
+
+
+```{r}
+#########add meta data for day#########
+d0es$day <- "day 0"
+
+d1d$day <- "day 01"
+d1v$day <- "day 01"
+
+d2d$day <- "day 02"
+d2v$day <- "day 02"
+
+
+d5d$day <- "day 05" 
+d5v$day <- "day 05"
+d5dv$day <- "day 05"
+
+d9d$day <- "day 09"
+d9v$day <- "day 09"
+d9dv$day <- "day 09"
+
+
+d14d$day <- "day 14"
+d14v$day <- "day 14"
+d14dv$day <- "day 14"
+
+
+d21d$day <- "day 21"
+d21v$day <- "day 21"
+d21dv$day <- "day 21"
+
+
+d35d$day <- "day 35"
+d35v$day <- "day 35"
+d35dv$day <- "day 35"
+
+d62d$day <- "day 62"
+d62v$day <- "day 62"
+
+############### add metadata of model##########
+d0es$model <- "ESc"
+
+d1d$model <- "R/C dorsal"
+d1v$model <- "R/C ventral"
+
+d2d$model <- "R/C dorsal"
+d2v$model <- "R/C ventral"
+
+
+d5d$model <- "R/C dorsal" 
+d5v$model <- "R/C ventral"
+d5dv$model <- "D/V forebrain"
+
+d9d$model <- "R/C dorsal"
+d9v$model <- "R/C ventral"
+d9dv$model <- "D/V forebrain"
+
+
+d14d$model <- "R/C dorsal"
+d14v$model <- "R/C ventral"
+d14dv$model <- "D/V forebrain"
+
+
+d21d$model <- "R/C dorsal"
+d21v$model <- "R/C ventral"
+d21dv$model <- "D/V forebrain"
+
+
+d35d$model <- "R/C dorsal"
+d35v$model <- "R/C ventral"
+d35dv$model <- "D/V forebrain"
+
+d62d$model <- "R/C dorsal"
+d62v$model <- "R/C ventral"
+
+
+
+
+```
+
+
+```{r}
+#########add meta data for tissue #########
+d0es$tissue <- " ES d 0"
+
+
+d1d$tissue <- "R/C dorsal d 01"
+d1v$tissue <- "R/C ventral d 01"
+
+
+d2d$tissue <- "R/C dorsal d 02"
+d2v$tissue <- "R/C ventral d 02"
+
+
+d5d$tissue <- "R/C dorsal d 05" 
+d5v$tissue <- "R/C ventral d 05"
+d5dv$tissue <- "D/V forebrain d 05"
+ 
+
+d9d$tissue <- "R/C dorsal d 09"
+d9v$tissue <- "R/C ventral d 09"
+d9dv$tissue <- "D/V forebrain d 09"
+
+
+d14d$tissue  <- "R/C dorsal d 14"
+d14v$tissue <- "R/C ventral d 14"
+d14dv$tissue <- "D/V forebrain d 14"
+
+
+d21d$tissue <- "R/C dorsal d 21"
+d21v$tissue <- "R/C ventral d 21"
+d21dv$tissue <- "D/V forebrain d 21"
+
+d35d$tissue <- "R/C dorsal d 35"
+d35v$tissue <- "R/C ventral d 35"
+d35dv$tissue <- "D/V forebrain d 35"
+
+d62d$tissue <- "R/C dorsal d 62"
+d62v$tissue <- "R/C ventral d 62"
+
+```
+
+
+
+```{r}
+d0es$source <- paste0("day0_",d0es$seurat_clusters)
+
+d1d$source <- paste0("d1d_",d1d$seurat_clusters)
+d1v$source <- paste0("d1v_",d1v$seurat_clusters)
+
+d2d$source <- paste0("d2d_",d2d$seurat_clusters)
+d2v$source <- paste0("d2v_",d2v$seurat_clusters)
+
+d5d$source <- paste0("d5d_",d5d$seurat_clusters)
+d5v$source <- paste0("d5v_",d5v$seurat_clusters)
+d5dv$source <- paste0("d5dv_",d5dv$seurat_clusters)
+
+d9d$source <- paste0("d9d_",d9d$seurat_clusters)
+d9v$source <- paste0("d9v_",d9v$seurat_clusters)
+d9dv$source <- paste0("d9dv_",d9dv$seurat_clusters)
+
+d14d$source <- paste0("d14d_",d14d$seurat_clusters)
+d14v$source <- paste0("d14v_",d14v$seurat_clusters)
+d14dv$source <- paste0("d14dv_",d14dv$seurat_clusters)
+
+d21d$source <- paste0("d21d_",d21d$seurat_clusters)
+d21v$source <- paste0("d21v_",d21v$seurat_clusters)
+d21dv$source <- paste0("d21dv_",d21dv$seurat_clusters)
+
+d35d$source <- paste0("d35d_",d35d$seurat_clusters)
+d35v$source <- paste0("d35v_",d35v$seurat_clusters)
+d35dv$source <- paste0("d35dv_",d35dv$seurat_clusters)
+
+d62d$source <- paste0("d62d_",d62d$seurat_clusters)
+d62v$source <- paste0("d62v_",d62v$seurat_clusters)
+
+```
+
+
+
+
+```{r}
+all.merged <- merge(d0es, y = c(d1d,d1v,d2d,d2v,d5d,d5v,d9d,d9v,d14d,d14v,d21d,d21v,d35d,d35v,d62d,d62v,d5dv,d9dv,d14dv,d21dv,d35dv), add.cell.ids = c("d0es","d01d","d01v","d02d","d02v","d05d","d05v","d09d","d09v","d14d","d14v","d21d","d21v","d35d","d35v","d62d","d62v","d5dv","d9dv","d14dv","d21dv","d35dv"), project = "all_MiSTR")
+all.merged
+
+```
+
+
+
+
+```{r}
+#########integrate with fast mnn#######
+all.merged.mnn <- SCTransform(all.merged)
+all.merged.mnn <- NormalizeData( all.merged.mnn)
+all.merged.mnn <- FindVariableFeatures( all.merged.mnn)
+all.merged.mnn <- RunFastMNN(object.list = SplitObject( all.merged.mnn, split.by = "tissue"))
+all.merged.mnn <- RunUMAP( all.merged.mnn, reduction = "mnn", dims = 1:30)
+
+DimPlot( all.merged.mnn, group.by = c("day"), ncol = 1)
+
+```
+
+```{r}
+#############subset neurons ###
+
+STMN2_expression = GetAssayData(object = all.merged.mnn, 
+assay = "RNA", slot = "data")["STMN2",]
+
+ pos_ids = names(which(STMN2_expression>2.5))
+
+ 
+     pos_cells = subset(all.merged.mnn,cells=pos_ids)
+
+    
+        FeaturePlot(pos_cells,"STMN2")
+
+```
+
+
+
+```{r}
+pos_cells <- SCTransform(pos_cells)
+pos_cells <- FindVariableFeatures(pos_cells, selection.method = "vst", nfeatures = 2000)
+
+pos_cells <- RunPCA(pos_cells, features = VariableFeatures(object = pos_cells))
+
+pos_cells <- RunUMAP( pos_cells, reduction = "pca", dims = 1:15)
+pos_cells <- FindNeighbors( pos_cells, reduction = "pca", dims = 1:15)
+pos_cells <- FindClusters( pos_cells)
+DimPlot(pos_cells)
+
+```
+
