@@ -1,0 +1,23 @@
+# Figures
+
+This directory contains the scripts and notebooks used to generate the figures associated with the MiSTR atlas manuscript.
+
+The materials provided here are intended to support transparency and computational reproducibility of the analyses presented in the paper.
+
+---
+
+## Organization
+
+Each notebook or script corresponds to specific analyses used in figure generation. Where applicable, intermediate processed data are assumed to be available from the preprocessing workflows described in the main repository.
+
+Because some analyses rely on large single-cell datasets, raw data are not stored in this repository. Users should obtain the relevant datasets from the sources referenced in the manuscript.
+
+---
+
+## Execution
+
+Notebooks are designed to be run after completing the preprocessing steps and setting up the required computational environment.
+
+Users are encouraged to review each notebook for required inputs, file paths, and dependencies before execution, as local computing environments may differ..
+
+---
