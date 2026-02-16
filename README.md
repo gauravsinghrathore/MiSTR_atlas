@@ -1,11 +1,11 @@
 # MiSTR_atlas
 
-## 📌 Version for Reviewers
+## You are viewing Version for Reviewers
 
-👉 **Frozen manuscript version:**  
-https://github.com/<user>/<repo>/tree/backup_before_revision
+**Frozen manuscript version for biorXiv :**  
+https://github.com/gauravsinghrathore/MiSTR_atlas/tree/biorxiv_version
 
-👉 **Active development version:**  
+**Active development version:**  
 `main`
 
 
