@@ -15,5 +15,5 @@ Because some analyses rely on large single-cell datasets, raw data are not store
 
 Notebooks are designed to be run after completing the preprocessing steps and setting up the required computational environment.
 
-Users are encouraged to review each notebook for required inputs, file paths, and dependencies before execution, as local computing environments may differ.
+Users are encouraged to review each notebook for required inputs, file paths, and dependencies before execution, as local computing environments may differ..
 
