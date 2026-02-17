@@ -7,6 +7,7 @@ These notebooks address code used to map
 
 
 In detail :
+
 Notebook Title : MiSTR_d14_d21_bonefight_spatial_mappping.ipynb
 This notebook overlays day 14 and 21 MiSTR data on spatail dataset of week 5 PC from braun et al
 tools used Scanpy Tangram and Bonefight 
@@ -17,3 +18,23 @@ Bonefight can be downloaded and installed rom here
 https://github.com/linnarsson-lab/BoneFight
 
 N.B any installation realted issue can be raise on respectivie github repositories
+
+--- 
+
+Notebook Title : mistr_pred_with_hbd_merged_tissue.ipynb
+
+This notebook represents label transfers (Forebrain , Midbrain amd Hindbrain ) from first trimester developing brain Braun et al to day 9-62 MiSTR tissues
+
+The data was acquied from Linnarsson Lab Github repo 
+Paper : https://www.science.org/doi/10.1126/science.adf1226
+
+Repo : https://github.com/linnarsson-lab/developing-human-brain
+
+to reuse the dataset either download the h5ad file provided or follow this issue 
+https://github.com/linnarsson-lab/developing-human-brain/issues/3
+
+System requirements computer with ram more than 300 GB, GPU ( 16 - 24 GB), multicore processor 32 cores minimum recommended. 
+
+for label transfer SCVI Tools was used 
+Installation instructions can be found on SCVI API: https://scvi-tools.org/
+this requires a GPU to run efficiently. 
