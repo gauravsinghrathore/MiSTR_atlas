@@ -1,4 +1,8 @@
-## this folder consist notebooks for Figure 1 and sppplementary figures S1 and S7
+## this folder consist notebooks for Figure 1 
+## Figure 1. Integrated transcriptomic profiling of rostro-caudal and dorso-ventral MiSTR models
+and sppplementary figures S1 and S7
+
+---
 
 Data analyis and plotting done using scanpy 
 installation guidelines 
@@ -6,6 +10,8 @@ installation guidelines
 https://scanpy.readthedocs.io/en/stable/installation.html
 
 N.B: versions of scanpy and its dependencies may differ based on versions python installed and your operating system. 
+
+---
 
 to control the versions installation of conda environmnets highly recommended
 
