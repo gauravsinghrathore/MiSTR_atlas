@@ -4,3 +4,16 @@ These notebooks address code used to map
 1. Human brain develpment atlas Braun et al 2023 onto MiSTR dataset (both spatial and single cell transcriptomics)
 2. Mouse grasturaltion atals on MiSTR day 0-5 cells.
 3. MiSTR data on CS9 neural only human enbryo from Yuan et al 2025
+
+
+In detail :
+Notebook Title : MiSTR_d14_d21_bonefight_spatial_mappping.ipynb
+This notebook overlays day 14 and 21 MiSTR data on spatail dataset of week 5 PC from braun et al
+tools used Scanpy Tangram and Bonefight 
+Tangram can be downlaod and installed fom here
+https://github.com/broadinstitute/Tangram
+
+Bonefight can be downloaded and installed rom here 
+https://github.com/linnarsson-lab/BoneFight
+
+N.B any installation realted issue can be raise on respectivie github repositories
