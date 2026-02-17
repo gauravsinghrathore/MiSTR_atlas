@@ -1,1 +1,6 @@
+## This folder consists notebooks for figure 2: Mapping regional and temporal expression dynamics in MiSTR models
+These notebooks address code used to map
 
+1. Human brain develpment atlas Braun et al 2023 onto MiSTR dataset (both spatial and single cell transcriptomics)
+2. Mouse grasturaltion atals on MiSTR day 0-5 cells.
+3. MiSTR data on CS9 neural only human enbryo from Yuan et al 2025
