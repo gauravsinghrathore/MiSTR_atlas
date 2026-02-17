@@ -1,1 +1,13 @@
-## this folder consist notebooks for Figure 1 and sppplementary figures S1 and S2
+## this folder consist notebooks for Figure 1 and sppplementary figures S1 and S7
+
+Data analyis and plotting done using scanpy 
+installation guidelines 
+
+https://scanpy.readthedocs.io/en/stable/installation.html
+
+N.B: versions of scanpy and its dependencies may differ based on versions python installed and your operating system. 
+
+to control the versions installation of conda environmnets highly recommended
+
+Installation guidelines are as folows
+https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
