@@ -1,20 +1,20 @@
 ## Figure 3 – Pseudotime Analysis of Rostro-Caudal Patterning
 
-This folder contains the notebook used to generate analyses for **Figure 3**.
+This folder contains the notebook used to generate analyses for Figure 3
 
 ### Notebook
-**`mistr_pseudotime_RC.ipynb`**
+mistr_pseudotime_RC.ipynb
 
 This notebook includes code to:
 
-- Identify and subset **OTX2⁺ (rostral)** and **GBX2⁺ (caudal)** cell populations from **day 0–9 MiSTR tissues**
+- Identify and subset OTX2⁺ (rostral) and GBX2⁺ (caudal) cell populations from day 0–9 MiSTR tissues
 - Perform pseudotime analysis on each subset to investigate early rostro-caudal patterning dynamics
 
 ---
 
 ## Environment Setup
 
-We recommend creating a **Conda environment** with both **Python and R** installed to ensure compatibility with the analysis workflow.
+We recommend creating a Conda environment with both Python and R installed to ensure compatibility with the analysis workflow.
 
 Official Conda environment management instructions:  
 https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html
@@ -23,4 +23,4 @@ https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environme
 
 ## Optional Tools
 
-For an improved development experience, editors such as **Visual Studio Code** with AI-assisted coding extensions (e.g., GitHub Copilot) may help streamline environment setup and notebook execution. These tools are optional and not required to run the analysis.
+For an improved development experience, editors such as Visual Studio Code with AI-assisted coding extensions (e.g., GitHub Copilot) may help streamline environment setup and notebook execution. These tools are optional and not required to run the analysis.
