@@ -38,13 +38,20 @@ System requirements computer with RAM more than 300 GB, GPU (16 - 24 GB), multic
 for label transfer SCVI Tools was used 
 Installation instructions can be found on SCVI API: https://scvi-tools.org/
 this requires a GPU to run efficiently. 
-
+---
 
 Notebook Title : mouse_gastrulation_mistr_early_patterning.ipynb
 
-This manuscript This notebook represents label transfers celltypes from developing mouse embryo ( E7, E7.5, E7.55 and E8) to day 0-5 MiSTR tissues
+This notebook represents label transfers celltypes from developing mouse embryo ( E7, E7.5, E7.55 and E8) to day 0-5 MiSTR tissues
 The mouse gastrulation dataset was obtained from 
 https://github.com/MarioniLab/EmbryoTimecourse2018
 for label transfer SCVI Tools was used 
 Installation instructions can be found on SCVI API: https://scvi-tools.org/
 this requires a GPU to run efficiently. 
+---
+Notebok title : yuan_etal_cs9_only_fused_annotations_neural_tube_analysis.ipynb
+This notebook represents reanalyis af CS9 human embryo data. The dataset comprises from whole ebryo we further subset Neural tube cells only to perform gene expression visualisation
+Paper link: https://www.sciencedirect.com/science/article/pii/S1934590925001420
+
+The dataset was obtained from authors directly therefore I request to original authors in order to access this datset. 
+
