@@ -23,4 +23,7 @@ https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environme
 
 ## Optional Tools
 
-For an improved development experience, editors such as Visual Studio Code with AI-assisted coding extensions (e.g., GitHub Copilot) may help streamline environment setup and notebook execution. These tools are optional and not required to run the analysis.
+For an improved development experience, 
+editors such as Visual Studio Code with AI-assisted coding extensions
+(e.g., GitHub Copilot) may help streamline environment setup and notebook execution.
+These tools are optional and not required to run the analysis.
