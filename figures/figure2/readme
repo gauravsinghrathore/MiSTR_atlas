@@ -33,8 +33,18 @@ Repo : https://github.com/linnarsson-lab/developing-human-brain
 to reuse the dataset either download the h5ad file provided or follow this issue 
 https://github.com/linnarsson-lab/developing-human-brain/issues/3
 
-System requirements computer with RAM more than 300 GB, GPU ( 16 - 24 GB), multicore processor 32 cores minimum recommended. 
+System requirements computer with RAM more than 300 GB, GPU (16 - 24 GB), multicore processor 32 cores minimum recommended. 
 
+for label transfer SCVI Tools was used 
+Installation instructions can be found on SCVI API: https://scvi-tools.org/
+this requires a GPU to run efficiently. 
+
+
+Notebook Title : mouse_gastrulation_mistr_early_patterning.ipynb
+
+This manuscript This notebook represents label transfers celltypes from developing mouse embryo ( E7, E7.5, E7.55 and E8) to day 0-5 MiSTR tissues
+The mouse gastrulation dataset was obtained from 
+https://github.com/MarioniLab/EmbryoTimecourse2018
 for label transfer SCVI Tools was used 
 Installation instructions can be found on SCVI API: https://scvi-tools.org/
 this requires a GPU to run efficiently. 
