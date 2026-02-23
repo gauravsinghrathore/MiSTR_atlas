@@ -1,2 +1,11 @@
 ## Notebook in this folder represents data analysis perfrormed for MHB (Midbrain-Hindbrain Boundary) story Figure7 and Figure S8
 
+In Detail: 
+
+Notebook title : mhb_main_notebook.ipynb, mhb_rna_velocity_final.ipynb
+These notebooks represnet MHB data analysis of cells from R-C dorasl MiSTR from day 5 to day 14, comprising of Timepoint integration (using ingest), selection of MHB cells (using sc.t.score function) and followed by RNA velocity on MHB cells.
+tools used: scanpy , scvelo 
+Please follow these tutorials for scapy/scvelo installaion and ingest integration
+scanpy :https://scanpy.readthedocs.io/en/stable/
+ingest: https://scanpy.readthedocs.io/en/stable/tutorials/basics/integrating-data-using-ingest.html
+scvelo: https://scvelo.readthedocs.io/en/stable/
