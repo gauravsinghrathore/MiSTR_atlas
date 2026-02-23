@@ -27,4 +27,4 @@ BiocManager::install("SingleCellExperiment")
 
 fastMNN requires R and is not available in Python.  
 Cell execution depends on proper Python–R interaction via rpy2.  
-Paths and environment setup may need adjustment depending on the system.
+Paths and environment setup may need adjustment depending on the system and operating systems.
