@@ -1,3 +1,30 @@
+## Figure 4 analysis (scRNA-seq, D–V forebrain)
 
-## This folder represents notebook used to analyse and generate figures for Figure 4 Showing scRNAseq data analyis of cells from D-V Forebrain MiSTR tissue. 
-Python library Scanpy was used to perfrom this analysis integration was done using fastmnn. 
+This folder contains the notebook used to analyse and generate Figure 4, showing scRNA-seq analysis of cells from dorso–ventral forebrain MiSTR tissue.
+
+Analysis was performed using Scanpy (Python) and integration was done using fastMNN (R, batchelor package).
+
+To run the notebook, both Python and R are required in the same conda environment. Communication between Python and R is handled using rpy2 or notebook magics.
+
+## Installation
+
+Create environment:
+conda create -n your_env python=3.10  
+conda activate your_env
+
+Install Python packages:
+pip install scanpy anndata numpy pandas matplotlib rpy2  
+
+Install R:
+conda install -c conda-forge r-base r-essentials  
+
+Open R and install fastMNN dependencies:
+install.packages("BiocManager")  
+BiocManager::install("batchelor")  
+BiocManager::install("SingleCellExperiment")  
+
+## Notes
+
+fastMNN requires R and is not available in Python.  
+Cell execution depends on proper Python–R interaction via rpy2.  
+Paths and environment setup may need adjustment depending on the system.
