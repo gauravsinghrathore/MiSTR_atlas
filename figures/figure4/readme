@@ -1,23 +1,17 @@
-# Figures
+This folder consists of notebooks used for analysis of Bulk RNA seq and Bulk ATAC seq.
+Related to figure 3.G and figure 4
 
-This directory contains the scripts and notebooks used to generate the figures associated with the MiSTR atlas manuscript.
+The seqeunce alignmnet and preprocessing was used using NF core pipeline 
+https://nf-co.re/rnaseq/3.14.0/
 
-The materials provided here are intended to support transparency and computational reproducibility of the analyses presented in the paper.
+Reamining analyis for gene expression and locus accessibility timelines can be done using deseq2 in R and plotting was done using matplotlib in python.
 
----
+You can install conda env to have both R and python in single notebook
 
-## Organization
+Tracks were visualised by using pybigwig pythin library.
 
-Each notebook or script corresponds to specific analyses used in figure generation. Where applicable, intermediate processed data are assumed to be available from the preprocessing workflows described in the main repository.
+You can visualise the tracks using igv browser as well. 
+Link to igv browser : https://igv.org/
 
-Because some analyses rely on large single-cell datasets, raw data are not stored in this repository. Users should obtain the relevant datasets from the sources referenced in the manuscript.
-
----
-
-## Execution
-
-Notebooks are designed to be run after completing the preprocessing steps and setting up the required computational environment.
-
-Users are encouraged to review each notebook for required inputs, file paths, and dependencies before execution, as local computing environments may differ..
-
----
+reviewers can download bigWig files from this link
+https://www.dropbox.com/scl/fo/jw0d5ogk6iu4ssdpdxrr7/AOWOQqfohj2hisEJudUv3UY?rlkey=quci6c7tp994xdwo03rulll59&st=5b0fbe42&dl=0
