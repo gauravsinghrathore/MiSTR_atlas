@@ -1,17 +1,38 @@
-This folder consists of notebooks used for analysis of Bulk RNA seq and Bulk ATAC seq.
-Related to figure 3.G and figure 4
+## Bulk RNA-seq and ATAC-seq analysis
 
-The seqeunce alignmnet and preprocessing was used using NF core pipeline 
-https://nf-co.re/rnaseq/3.14.0/
+This folder contains notebooks used for analysis of bulk RNA-seq and bulk ATAC-seq data associated with Figure 3G and Figure 4.
 
-Reamining analyis for gene expression and locus accessibility timelines can be done using deseq2 in R and plotting was done using matplotlib in python.
+## Preprocessing
 
-You can install conda env to have both R and python in single notebook
+Sequence alignment and initial preprocessing were performed using the nf-core pipeline:
 
-Tracks were visualised by using pybigwig pythin library.
+https://nf-co.re/rnaseq/3.14.0/  
 
-You can visualise the tracks using igv browser as well. 
-Link to igv browser : https://igv.org/
 
-reviewers can download bigWig files from this link
-https://www.dropbox.com/scl/fo/jw0d5ogk6iu4ssdpdxrr7/AOWOQqfohj2hisEJudUv3UY?rlkey=quci6c7tp994xdwo03rulll59&st=5b0fbe42&dl=0
+## Downstream analysis
+
+Downstream analyses include:
+
+- Gene expression analysis using DESeq2 (R)  
+- Locus accessibility timeline analysis  
+- Visualization using matplotlib (Python)  
+
+Users may set up a conda environment that supports both R and Python to run the notebooks seamlessly.
+
+## Track visualization
+
+Genome browser tracks were generated using the pyBigWig Python library.
+
+Tracks can be visualized using IGV:
+
+https://igv.org/  
+
+## Data availability
+
+Reviewers can download the bigWig files from the following link:
+
+https://www.dropbox.com/scl/fo/jw0d5ogk6iu4ssdpdxrr7/AOWOQqfohj2hisEJudUv3UY?rlkey=quci6c7tp994xdwo03rulll59&st=5b0fbe42&dl=0  
+
+## Notes
+
+These notebooks reflect the analysis performed for the manuscript. File paths and compute settings may need to be adjusted depending on the local environment.
