@@ -38,8 +38,11 @@ Detailed instructions for executing the notebooks and installing required tools 
 
 ---
 
-## Interactive data resource
+## Interactive and downloadable data resource
 
 An interactive version of the MiSTR dataset is available through the UCSC Cell Browser:
 
 https://cells.ucsc.edu/?ds=neural-tube-organoids
+
+bigWig files for Bulk ATAC seq experiments 
+https://www.dropbox.com/scl/fo/jw0d5ogk6iu4ssdpdxrr7/AOWOQqfohj2hisEJudUv3UY?rlkey=quci6c7tp994xdwo03rulll59&st=yppg93nm&dl=0
