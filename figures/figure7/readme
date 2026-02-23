@@ -1,11 +1,92 @@
-## Notebook in this folder represents data analysis perfrormed for MHB (Midbrain-Hindbrain Boundary) story Figure7 and Figure S8
+## MHB analysis (Figure 7 and Figure S8)
 
-In Detail: 
+This folder contains notebooks and scripts used for analysis of the midbrain–hindbrain boundary (MHB) in the MiSTR system.
 
-Notebook title : mhb_main_notebook.ipynb, mhb_rna_velocity_final.ipynb
-These notebooks represnet MHB data analysis of cells from R-C dorasl MiSTR from day 5 to day 14, comprising of Timepoint integration (using ingest), selection of MHB cells (using sc.t.score function) and followed by RNA velocity on MHB cells.
-tools used: scanpy , scvelo 
-Please follow these tutorials for scapy/scvelo installaion and ingest integration
-scanpy :https://scanpy.readthedocs.io/en/stable/
-ingest: https://scanpy.readthedocs.io/en/stable/tutorials/basics/integrating-data-using-ingest.html
-scvelo: https://scvelo.readthedocs.io/en/stable/
+### Notebooks
+
+mhb_main_notebook.ipynb  
+mhb_rna_velocity_final.ipynb  
+
+These notebooks analyze rostro–caudal dorsal MiSTR cells from day 5 to day 14. The workflow includes:
+
+- Integration of time points using Scanpy ingest  
+- Selection of MHB cells using scoring approaches  
+- RNA velocity analysis on the selected MHB population  
+
+Tools used: Scanpy, scVelo  
+
+Documentation:
+
+Scanpy  
+https://scanpy.readthedocs.io/en/stable/  
+
+Ingest tutorial  
+https://scanpy.readthedocs.io/en/stable/tutorials/basics/integrating-data-using-ingest.html  
+
+scVelo  
+https://scvelo.readthedocs.io/en/stable/  
+
+---
+
+## In silico perturbation analysis (SCENIC and CellOracle)
+
+Scripts / notebooks:
+
+MHB_CO.py  
+hbd_mhb_co.ipynb  
+
+These implement in silico perturbation analysis using SCENIC and CellOracle. The workflow is:
+
+1. Build gene regulatory networks (GRNs) using SCENIC  
+2. Use transcription factor–target relationships derived from SCENIC  
+3. Use CellOracle to simulate perturbations (in silico knockouts)
+
+Analyses are performed on:
+
+- MiSTR MHB cells  
+- Week 5 human developing brain data (Braun et al., 2023)
+
+---
+
+## External dataset (developing human brain)
+
+Paper  
+https://www.science.org/doi/10.1126/science.adf1226  
+
+Repository  
+https://github.com/linnarsson-lab/developing-human-brain  
+
+Obtain the dataset from the repository (for example via the provided h5ad file) or follow relevant discussions/issues in that repository for guidance.
+
+---
+
+## Step-by-step installation guidance
+
+The SCENIC and CellOracle parts require separate environments. Do not try to install everything into one conda environment.
+
+Reason: CellOracle dependencies differ from the SCENIC protocol dependencies, and installing both into the same environment commonly leads to version conflicts.
+
+### Step 1. Install SCENIC in a dedicated Python 3.6 environment
+
+SCENIC protocol (Van de Sande et al., 2020):  
+https://github.com/aertslab/SCENICprotocol  
+
+Important: the SCENIC protocol pipeline requires Python 3.6. Python 3.6 is deprecated, so installation can be fragile. For this reason, follow the official installation instructions very carefully and keep SCENIC in its own conda environment.
+
+Official installation instructions:  
+https://github.com/aertslab/SCENICprotocol/blob/master/docs/installation.md  
+
+After installing the SCENIC protocol, install Scanpy and loompy versions compatible with Python 3.6 within the same SCENIC environment.
+
+### Step 2. Install CellOracle in a separate conda environment
+
+CellOracle should be installed in a new environment because its dependencies differ from SCENIC and are not reliably compatible with the SCENIC protocol environment.
+
+CellOracle installation instructions:  
+https://morris-lab.github.io/CellOracle.documentation/installation/index.html#install-celloracle  
+
+---
+
+## Notes
+
+These workflows reflect the analysis performed for the manuscript. Local file paths and compute settings may need adjustment depending on the system on which the code is executed.
