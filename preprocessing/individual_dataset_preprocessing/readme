@@ -1,1 +1,4 @@
 
+These notebooks provide the code used to perform basic qc 
+- remove cells with high % of mito ribo genes 
+- use hashtagging info to remove dublets and basic clustering
