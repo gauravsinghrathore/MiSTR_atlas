@@ -1,2 +1,24 @@
 ####### These folders represent codes used for basic processing of scRNAseq datasets which were further used to generate figures
 
+#########################################Tools used############################## 
+-- STAR SOLO alignmnet
+tools used to calculate intronic axonic matrices
+Installaion and inmplementation 
+fololow my repo
+https://github.com/gauravsinghrathore/Star-solo-alignment
+
+
+-- Seurat (V4)
+https://satijalab.org/seurat/articles/install_v5
+
+-- Scanpy
+https://scanpy.readthedocs.io/en/stable/
+
+-- Bachelor 
+https://bioconductor.org/packages/release/bioc/html/batchelor.html
+
+-- SeuratWrapper
+https://github.com/satijalab/seurat-wrappers
+
+-- SuratDisk
+https://github.com/mojaveazure/seurat-disk
