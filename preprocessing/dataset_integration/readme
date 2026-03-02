@@ -1,1 +1,14 @@
 
+#### this R notebook represents code used to integrate all the individual scRNAseq datasets of MiSTR tissues from vrious time points nad models 
+
+Tools used
+- seurat 4.0 
+Installation link https://satijalab.org/seurat/articles/install_v5
+
+
+- seuratwrapper
+https://github.com/satijalab/seurat-wrappers
+
+
+- batchelor
+https://bioconductor.org/packages/release/bioc/html/batchelor.html
